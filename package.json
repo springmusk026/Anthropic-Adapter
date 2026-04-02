@@ -1,0 +1,39 @@
+{
+  "name": "anthropic-adapter",
+  "version": "1.0.0",
+  "description": "Anthropic Messages API adapter for OpenAI-compatible backends.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/your-org/anthropic-adapter#readme",
+  "bugs": {
+    "url": "https://github.com/your-org/anthropic-adapter/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/anthropic-adapter.git"
+  },
+  "keywords": [
+    "anthropic",
+    "adapter",
+    "bun",
+    "claude",
+    "gateway",
+    "openai",
+    "proxy"
+  ],
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run src/index.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "openai": "^4.85.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

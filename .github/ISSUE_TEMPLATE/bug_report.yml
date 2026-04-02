@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a defect in runtime behavior, compatibility, or documentation.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the problem and the expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Share the request, configuration, and steps needed to reproduce the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include Bun version, deployment context, provider, and any relevant configuration.
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, or other details that might help.
