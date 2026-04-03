@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  anthropic-adapter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: anthropic-adapter
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - PROVIDER=${PROVIDER:-openai}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
+      - OPENAI_DEFAULT_MODEL=${OPENAI_DEFAULT_MODEL:-}
+      - OPENAI_TIMEOUT=${OPENAI_TIMEOUT:-120000}
+      - AUTH_DISABLED=${AUTH_DISABLED:-false}
+      - API_KEYS=${API_KEYS:-}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_FORMAT=${LOG_FORMAT:-pretty}
+      - MODEL_MAP=${MODEL_MAP:-}
+      - RETRY_COUNT=${RETRY_COUNT:-2}
+      - RETRY_DELAY_MS=${RETRY_DELAY_MS:-1000}
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+      - RATE_LIMIT_RPM=${RATE_LIMIT_RPM:-}
+      - SHUTDOWN_TIMEOUT_MS=${SHUTDOWN_TIMEOUT_MS:-5000}
+    volumes: []
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# Optional: Add a local model provider for testing
+# Uncomment to use Ollama as the upstream provider
+#
+# ollama:
+#   image: ollama/ollama:latest
+#   container_name: ollama
+#   ports:
+#     - "11434:11434"
+#   volumes:
+#     - ollama-data:/root/.ollama
+#   environment:
+#     - OLLAMA_HOST=0.0.0.0
+#   restart: unless-stopped
+#
+# volumes:
+#   ollama-data:
+
+networks:
+  default:
+    name: anthropic-network

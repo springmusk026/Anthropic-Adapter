@@ -43,6 +43,25 @@ bun run dev
 
 The server listens on `http://localhost:3000` by default.
 
+## Docker
+
+```bash
+# Create .env from example and configure your settings
+cp .env.example .env
+# Edit .env with your provider details
+
+# Build and start the container
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# Stop the container
+docker compose down
+```
+
+The Docker container exposes the service on `127.0.0.1:3000` (localhost only).
+
 ## Configuration
 
 All configuration is provided through environment variables.

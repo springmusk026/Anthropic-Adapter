@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+bun.lockb
+
+# Development
+.env
+.env.local
+.claude/
+.git/
+.github/
+docs/
+tests/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build output
+dist/
+
+# Misc
+*.log
+*.tmp
+.DS_Store
