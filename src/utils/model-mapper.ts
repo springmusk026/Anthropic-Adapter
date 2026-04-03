@@ -55,3 +55,24 @@ export function parseModelMap(envValue?: string): Map<string, string> {
 
   return map;
 }
+
+/**
+ * Parse advertised models from env string format: "model1,model2,model3"
+ * Returns default models if env is empty.
+ */
+export function parseAdvertisedModels(envValue?: string): string[] {
+  if (!envValue) {
+    // Return default models
+    return [
+      "claude-3-5-sonnet-20241022",
+      "claude-3-5-sonnet-latest",
+      "claude-3-opus-20240229",
+      "claude-3-sonnet-20240229",
+    ];
+  }
+
+  return envValue
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+}

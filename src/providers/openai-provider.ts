@@ -8,7 +8,7 @@ import type {
   ParsedCompletionLike,
   StreamChunkLike,
 } from "../types/internal.js";
-import type { CompletionProvider } from "../types/provider.js";
+import type { CompletionProvider, ModelInfo } from "../types/provider.js";
 import type { Logger } from "../utils/logger.js";
 import { withRetry, type RetryConfig } from "../utils/retry.js";
 
@@ -284,5 +284,15 @@ export class OpenAIProvider implements CompletionProvider {
       completionTokens: completion.usage?.completion_tokens ?? 0,
       reasoning,
     };
+  }
+
+  async listModels(): Promise<ModelInfo[]> {
+    const response = await this.client.models.list();
+    return response.data.map((model) => ({
+      id: model.id,
+      object: "model",
+      created: model.created,
+      owned_by: model.owned_by ?? "openai",
+    }));
   }
 }

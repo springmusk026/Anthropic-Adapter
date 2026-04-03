@@ -5,7 +5,7 @@
  * for testing and development. Not for production use.
  */
 
-import type { CompletionProvider } from "../types/provider.js";
+import type { CompletionProvider, ModelInfo } from "../types/provider.js";
 import type {
   NormalizedRequest,
   ParsedCompletionLike,
@@ -85,5 +85,14 @@ export class MockProvider implements CompletionProvider {
     for (const chunk of this.streamingChunks) {
       yield { ...chunk };
     }
+  }
+
+  async listModels(): Promise<ModelInfo[]> {
+    const now = Math.floor(Date.now() / 1000);
+    return [
+      { id: "gpt-4o", object: "model", created: now, owned_by: "openai" },
+      { id: "gpt-4-turbo", object: "model", created: now, owned_by: "openai" },
+      { id: "gpt-3.5-turbo", object: "model", created: now, owned_by: "openai" },
+    ];
   }
 }

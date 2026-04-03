@@ -6,6 +6,13 @@ import type {
   StreamChunkLike,
 } from "./internal.js";
 
+export interface ModelInfo {
+  id: string;
+  object: string;
+  created: number;
+  owned_by: string;
+}
+
 export interface CompletionProvider {
   /** Returns the full completion for non-streaming requests. */
   createCompletion(request: NormalizedRequest): Promise<ParsedCompletionLike>;
@@ -14,4 +21,7 @@ export interface CompletionProvider {
   streamCompletion(
     request: NormalizedRequest
   ): AsyncGenerator<StreamChunkLike, void, undefined>;
+
+  /** Returns list of available models from the upstream provider. */
+  listModels(): Promise<ModelInfo[]>;
 }

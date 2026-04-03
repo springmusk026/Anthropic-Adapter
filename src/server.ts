@@ -93,6 +93,17 @@ export class AdapterServer {
           );
         }
 
+        if (method === "GET" && url.pathname === "/v1/models") {
+          const models = await this.buildModelsResponse();
+          const response = new Response(JSON.stringify(models, null, 2), {
+            headers: { "Content-Type": "application/json" },
+          });
+          return cors.addCorsHeaders(
+            req,
+            addRequestIdHeader(response, ctx.requestId)
+          );
+        }
+
         const authResponse = auth.validate(req);
         if (authResponse) {
           ctx.logger.warn("Authentication failed", {
@@ -161,6 +172,32 @@ export class AdapterServer {
 
   private getStartTime(): number {
     return this.startTimestamp;
+  }
+
+  private async buildModelsResponse(): Promise<{
+    object: string;
+    data: Array<{
+      id: string;
+      object: string;
+      created: number;
+      owned_by: string;
+    }>;
+  }> {
+    try {
+      const models = await this.config.provider.listModels();
+      return {
+        object: "list",
+        data: models,
+      };
+    } catch (err) {
+      this.config.logger.error("Failed to fetch models from provider", {
+        error: (err as Error).message,
+      });
+      return {
+        object: "list",
+        data: [],
+      };
+    }
   }
 
   private registerShutdownHandlers(): void {
