@@ -192,9 +192,13 @@ export class MessagesRoute {
         let chunkCount = 0;
 
         const writer = (event: string, data: unknown) => {
-          const line = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-          controller.enqueue(encoder.encode(line));
-          chunkCount++;
+          try {
+            const line = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+            controller.enqueue(encoder.encode(line));
+            chunkCount++;
+          } catch {
+            // Controller closed (e.g., client disconnected), stop writing
+          }
         };
 
         const streamWriter = new AnthropicStreamWriter();

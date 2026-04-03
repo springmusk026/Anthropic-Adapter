@@ -50,6 +50,7 @@ export class AdapterServer {
 
     this.server = Bun.serve({
       port,
+      idleTimeout: 0, // Disable timeout for long-running inference requests
       fetch: async (req: Request): Promise<Response> => {
         const url = new URL(req.url);
         const method = req.method;
